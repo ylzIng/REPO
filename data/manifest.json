@@ -1,0 +1,37 @@
+[
+  {
+    "path": "AIME-TTT/test-simplerl.parquet",
+    "sha256": "ff1cd1f45d39eac9bc74d7eb68bf5ab4d0b717b192943c1bbea96d5398f47ac1",
+    "bytes": 22465
+  },
+  {
+    "path": "AIME25-TTT/test-simplerl.parquet",
+    "sha256": "867ec662670ac41d14c887f93a804ed562942ee530763b515a60d2187ac0a6af",
+    "bytes": 27182
+  },
+  {
+    "path": "AMC-TTT/test-simplerl.parquet",
+    "sha256": "e4babfcb183ba509eaf7008d8c6567375f12a0d7a12f236e689eef54153e26b0",
+    "bytes": 41872
+  },
+  {
+    "path": "DAPO-TTT/test-simplerl.parquet",
+    "sha256": "030cc6cb01527ab9d6fd1fc7d001832b6fc7eee4b2cd93f449e798c7355cfa13",
+    "bytes": 91213
+  },
+  {
+    "path": "DAPO-TTT/train-simplerl.parquet",
+    "sha256": "48258ee0b19b6ee394a9eababc60db72eb001df6ce7268218169af290b363c25",
+    "bytes": 2315606
+  },
+  {
+    "path": "GPQA-TTT/test-simplerl.parquet",
+    "sha256": "ae9d1f56f2d7045c05e72f96ccdee6927ee49eb213e60f3e2ccbe0c4e041bdb2",
+    "bytes": 160406
+  },
+  {
+    "path": "MATH-TTT/test-simplerl.parquet",
+    "sha256": "4f12628b17fbdb250c5cad705c321b19020f2d1f8b36802884aea60a13b4c170",
+    "bytes": 177037
+  }
+]

@@ -1,0 +1,27 @@
+# Dependencies for training and evaluation
+accelerate
+codetiming
+datasets
+dill
+flash-attn
+hydra-core
+liger-kernel
+numpy
+pandas
+datasets
+peft
+pyarrow>=15.0.0
+pybind11
+pylatexenc
+ray[default]
+tensordict<=0.6.2
+torchdata
+transformers
+vllm==0.8.3
+wandb
+
+# Match the inherited answer-grading implementation and Hydra runtime.
+scipy
+latex2sympy2==1.5.4
+antlr4-python3-runtime==4.9.3
+word2number==1.1

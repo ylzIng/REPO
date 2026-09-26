@@ -1,0 +1,9 @@
+# Runtime versions from the source deployment. Linux/CUDA only.
+torch==2.6.0
+vllm==0.8.3
+transformers==4.54.1
+ray==2.43.0
+tensordict==0.6.2
+flash-attn==2.7.4.post1
+triton==3.2.0
+numpy<3

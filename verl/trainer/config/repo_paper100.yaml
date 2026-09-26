@@ -1,0 +1,8 @@
+defaults:
+  - repo
+  - _self_
+
+# Paper-length preset; teacher EMA horizon remains explicitly 100.
+trainer:
+  total_training_steps: 100
+  lr_schedule_total_steps: 100

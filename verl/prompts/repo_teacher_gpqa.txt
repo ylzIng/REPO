@@ -1,0 +1,19 @@
+Question and answer choices:
+{problem}
+
+Candidate answer:
+{candidate_answer}
+
+Check whether the candidate selects the correct answer. Identify the scientific
+principle needed to solve the question, reason through its conditions and the
+relevant alternatives, and then compare that conclusion with the candidate.
+Check assumptions, units, and limiting cases when relevant. Do not use how often
+an answer was sampled, the student's confidence, or its presentation as evidence
+of correctness. Apply the same standard to acceptance and rejection: neither
+True nor False is preferred in advance. Do not invent a reference answer.
+
+You may give a concise check inside one <analysis>...</analysis> block. End with
+exactly one verdict: <judgment>True</judgment> if the candidate is correct, or
+<judgment>False</judgment> if your check finds it incorrect. Put no judgment tag
+inside the analysis, do not give both verdicts, and stop immediately after the
+closing judgment tag. Do not start another question or conversation.

@@ -1,0 +1,144 @@
+# Public defaults. The screenshot supplied with the paper takes precedence
+# over conflicting teacher decoding settings in the PDF's Table 4.
+defaults:
+  - ppo_trainer
+  - _self_
+
+data:
+  train_files: [data/DAPO-TTT/train-simplerl.parquet]
+  val_files: [data/AIME-TTT/test-simplerl.parquet, data/AIME25-TTT/test-simplerl.parquet, data/AMC-TTT/test-simplerl.parquet, data/MATH-TTT/test-simplerl.parquet, data/DAPO-TTT/test-simplerl.parquet, data/GPQA-TTT/test-simplerl.parquet]
+  max_prompt_length: 1024
+  max_response_length: 2048
+  train_batch_size: 32
+  return_raw_chat: true
+  filter_overlong_prompts: true
+  seed: 1
+
+actor_rollout_ref:
+  model:
+    path: ${oc.env:REPO_MODEL_PATH,weights/Qwen3-4B-Base}
+    enable_gradient_checkpointing: true
+    use_remove_padding: true
+  teacher_ema:
+    enabled: true
+    beta_start: 0.99
+    beta_end: 0.9999
+    total_steps: 100
+  actor:
+    compute_topk_metrics: false
+    ppo_mini_batch_size: 1
+    ppo_micro_batch_size_per_gpu: 4
+    use_dynamic_bsz: false
+    ppo_max_token_len_per_gpu: 12288
+    clip_ratio: 0.2
+    clip_ratio_low: 0.2
+    clip_ratio_high: 0.2
+    clip_ratio_c: 3.0
+    loss_agg_mode: token-mean
+    use_kl_loss: true
+    kl_loss_coef: 0.001
+    entropy_coeff: 0.0
+    optim:
+      lr: 5.0e-7
+      lr_warmup_steps_ratio: 0.03
+      warmup_style: cosine
+    fsdp_config:
+      param_offload: false
+      optimizer_offload: false
+  ref:
+    log_prob_micro_batch_size_per_gpu: 4
+    fsdp_config:
+      param_offload: true
+  rollout:
+    name: vllm
+    temperature: 1.0
+    top_p: 1.0
+    top_k: -1
+    seed: 42
+    tensor_model_parallel_size: 1
+    gpu_memory_utilization: 0.85
+    enforce_eager: false
+    free_cache_engine: false
+    max_model_len: 4096 # Teacher prompt may use 2048 tokens, plus 2048 judgment tokens.
+    max_num_batched_tokens: 12288
+    max_num_seqs: 256
+    log_prob_micro_batch_size_per_gpu: 4
+    do_vote: true
+    n_vote: 64
+    n: 32
+    val_kwargs:
+      do_sample: true
+      n: 32
+      temperature: 0.6
+      top_p: 0.95
+      top_k: 20
+
+reward_model:
+  reward_manager: ttrl
+  reward_kwargs:
+    n_votes_per_prompt: 64
+    n_samples_per_prompt: 32
+    mode: train
+
+algorithm:
+  adv_estimator: pass_grpo_penalized
+  k: 4
+  use_kl_in_reward: false
+  kl_ctrl:
+    kl_coef: 0.0
+  lam_div: 0.05
+  c_max: 2.0
+  div_sc_threshold: 0.8
+
+# Backend names retained for compatibility; public logs use student/teacher.
+teacher_enabled: true
+teacher_policy_gradient_enabled: false
+teacher_mode: sampling
+teacher_verdict_format: repo
+teacher_samples_per_candidate: 8
+teacher_high_consensus_threshold: 0.8
+teacher_low_consensus_threshold: 0.8
+teacher_acceptance_threshold: 0.6
+teacher_high_max_candidates: 3
+teacher_low_max_candidates: 5
+teacher_high_temperature: 0.6
+teacher_low_temperature: 1.0
+teacher_top_p: 0.85
+teacher_max_new_tokens: 2048
+teacher_micro_batch_size: 16
+teacher_candidate_pad_seed: 1
+teacher_fallback: majority
+teacher_abstention_mode: skip_update
+
+evidence_weighting:
+  enable: true
+  bootstrap_samples: 32
+  attenuation: 0.25
+  seed: 42
+  evidence_dir: ${oc.env:REPO_OUTPUT_DIR,outputs/repo}/evidence
+
+trainer:
+  project_name: REPO
+  experiment_name: ${oc.env:REPO_RUN_NAME,repo_qwen3_4b}
+  logger: [console]
+  nnodes: 1
+  n_gpus_per_node: 8
+  total_epochs: 30
+  total_training_steps: 300
+  lr_schedule_total_steps: ${trainer.total_training_steps}
+  val_before_train: false
+  validation_steps: null
+  test_freq: 5
+  report_full_validation: true
+  validation_include_greedy: false
+  report_sampled_validation: false
+  validation_seed: 42
+  validation_micro_batch_size: 256
+  validation_output_dir: ${oc.env:REPO_OUTPUT_DIR,outputs/repo}/evaluations
+  validation_exclude_from_macro: [dapo]
+  checkpoint_steps: null
+  save_freq: 50
+  max_actor_ckpt_to_keep: 2
+  max_critic_ckpt_to_keep: 2
+  resume_mode: disable
+  default_local_dir: ${oc.env:REPO_OUTPUT_DIR,outputs/repo}/checkpoints

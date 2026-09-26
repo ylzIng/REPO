@@ -1,0 +1,8 @@
+defaults:
+  - repo
+  - _self_
+actor_rollout_ref:
+  model:
+    path: ${oc.env:REPO_MODEL_PATH,weights/Qwen3-8B-Base}
+trainer:
+  experiment_name: ${oc.env:REPO_RUN_NAME,repo_qwen3_8b}

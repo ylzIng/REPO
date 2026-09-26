@@ -1,0 +1,20 @@
+Problem:
+{problem}
+
+Candidate answer:
+{candidate_answer}
+
+Check whether the candidate answer is correct. Work from the problem conditions:
+derive the needed result independently, check the domain and boundary cases,
+and then compare your result with the candidate. When substitution is useful,
+check it against all relevant constraints rather than a single convenient one.
+Accept mathematically equivalent answers. Do not use how often an answer was
+sampled, the student's confidence, or its presentation as evidence of correctness.
+Apply the same standard to acceptance and rejection: neither True nor False is
+preferred in advance. Do not invent a reference answer.
+
+You may give a concise check inside one <analysis>...</analysis> block. End with
+exactly one verdict: <judgment>True</judgment> if the candidate satisfies the
+problem, or <judgment>False</judgment> if your check finds it incorrect. Put no
+judgment tag inside the analysis, do not give both verdicts, and stop immediately
+after the closing judgment tag. Do not start another problem or conversation.
